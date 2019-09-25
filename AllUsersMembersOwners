@@ -1,0 +1,9 @@
+Get-SPSite -Limit All |
+   Get-SPWeb -Limit All |
+   where { $_.HasUniquePerm -and $_.AssociatedOwnerGroup -ne $null } |
+   foreach { $SiteURL = $_.Url; $SiteTitle = $_.Title; $_ } |
+   Select -ExpandProperty AssociatedOwnerGroup |
+   Select -ExpandProperty Users |
+   Select @{Label='Site URL'; Expression={$SiteURL} }, @{Label='Site Title';
+   Expression={$SiteTitle} }, DisplayName, Email |
+   Export-Csv e:\Scripts\UHM\AllUsersMembersOwners02092019.csv -NoTypeInformation
